@@ -60,7 +60,7 @@ ChartSeries Chart::add_series(const std::string &categories,
     assert(ptr && "Chart cannot be null.");
     const char *categories_ = categories.empty() ? nullptr : categories.data();
     const char *values_ = values.empty() ? nullptr : values.data();
-    chart_add_series(ptr, categories_, values_);
+    return ChartSeries(chart_add_series(ptr, categories_, values_));
 }
 
 }   /* xlsxwriter */

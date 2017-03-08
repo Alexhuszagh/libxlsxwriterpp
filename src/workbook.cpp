@@ -27,6 +27,7 @@ Options & Options::operator=(Options &&other)
 {
     ptr = other.ptr;
     other.ptr = nullptr;
+    return *this;
 }
 
 
@@ -80,6 +81,7 @@ Properties & Properties::operator=(Properties &&other)
 {
     ptr = other.ptr;
     other.ptr = nullptr;
+    return *this;
 }
 
 
@@ -100,6 +102,7 @@ Workbook & Workbook::operator=(Workbook &&other)
 {
     ptr = other.ptr;
     other.ptr = nullptr;
+    return *this;
 }
 
 
