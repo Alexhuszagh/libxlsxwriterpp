@@ -6,7 +6,11 @@
 
 #pragma once
 
-#include "xlsxwriter/workbook.h"
+#include "chart.hpp"
+#include "format.hpp"
+#include "property.hpp"
+#include "worksheet.hpp"
+#include <xlsxwriter/workbook.h>
 
 #include <string>
 
@@ -25,8 +29,8 @@ protected:
 
 public:
     Options() = default;
-    Options(const Options&) = default;
-    Options & operator=(const Options&) = default;
+    Options(const Options&) = delete;
+    Options & operator=(const Options&) = delete;
     Options(Options &&other);
     Options & operator=(Options &&other);
 
@@ -53,6 +57,25 @@ public:
     ~Workbook();
     Workbook(const std::string &filename,
         const Options &options = Options());
+
+    Worksheet add_worksheet(const std::string &sheetname);
+    Format add_format();
+    Chart add_chart(const ChartType chart_type);
+    void close();
+
+    Worksheets worksheets();
+    Worksheet get_worksheet_by_name(const std::string &name);
+    void set_properties(const Properties &properties);
+    void set_custom_property(const std::string &name,
+        const std::string &value);
+    void set_custom_property(const std::string &name,
+        const double value);
+    void set_custom_property(const std::string &name,
+        const int32_t value);
+    void set_custom_property(const std::string &name,
+        const bool value);
+    // TODO: set_custom_property(datetime)
+    // TODO: workbook_define_name
 };
 
 }   /* xlsxwriter */

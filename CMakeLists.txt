@@ -2,7 +2,7 @@
 #  :license: FreeBSD, see LICENSE.txt for more details.
 
 cmake_minimum_required(VERSION 2.8)
-project(xlsxwriter++ C++)
+project(xlsxwriter++ CXX)
 
 # OPTIONS
 # -------
@@ -28,7 +28,12 @@ endif()
 # -------
 
 set(LXWPP_SOURCES
-    workbook.cpp
+    src/chart.cpp
+    src/format.cpp
+    src/property.cpp
+    src/utility.cpp
+    src/workbook.cpp
+    src/worksheet.cpp
 )
 
 add_subdirectory(libxlsxwriter)
