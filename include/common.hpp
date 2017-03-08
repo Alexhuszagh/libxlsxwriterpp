@@ -7,6 +7,7 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 #include <xlsxwriter/common.h>
 
 
@@ -15,7 +16,10 @@ namespace xlsxwriter
 // OBJECTS
 // -------
 
+typedef lxw_row_t Row;
+typedef lxw_col_t Column;
+typedef std::vector<Row> Rows;
+typedef std::vector<Column> Columns;
 typedef lxw_datetime Datetime;
-
 
 }   /* xlsxwriter */

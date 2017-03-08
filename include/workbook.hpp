@@ -9,9 +9,8 @@
 #include "chart.hpp"
 #include "format.hpp"
 #include "worksheet.hpp"
-#include <xlsxwriter/workbook.h>
 
-#include <string>
+#include <xlsxwriter/workbook.h>
 
 
 namespace xlsxwriter

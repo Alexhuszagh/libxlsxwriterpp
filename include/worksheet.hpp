@@ -10,8 +10,6 @@
 #include "format.hpp"
 
 #include <deque>
-#include <string>
-#include <vector>
 #include <xlsxwriter/worksheet.h>
 
 
@@ -73,12 +71,6 @@ enum class Gridlines: uint8_t
 
 // OBJECTS
 // -------
-
-typedef lxw_row_t Row;
-typedef lxw_col_t Column;
-typedef std::vector<Row> Rows;
-typedef std::vector<Column> Columns;
-
 
 // TODO: lxw_row_col_options
 // TODO: lxw_col_options
@@ -178,6 +170,7 @@ public:
         const double result = 0);
 
     // FORMAT
+// TODO:
 //    worksheet_set_row
 //    worksheet_set_column
 //    worksheet_merge_range
@@ -246,6 +239,7 @@ public:
     void hide_zero();
     void set_tab_color(const Color color);
 
+// TODO:
 //    worksheet_protect
 //    worksheet_set_default_row
 };
