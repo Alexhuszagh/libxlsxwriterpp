@@ -54,11 +54,13 @@ protected:
     Chart(lxw_chart *ptr);
 
 public:
-    Chart() = delete;
-    Chart(const Chart&) = delete;
-    Chart & operator=(const Chart&) = delete;
-    Chart(Chart &&other);
-    Chart & operator=(Chart &&other);
+    Chart() = default;
+    Chart(const Chart&) = default;
+    Chart & operator=(const Chart&) = default;
+    Chart(Chart &&other) = default;
+    Chart & operator=(Chart &&other) = default;
+
+    // TODO: add methods
 };
 
 }   /* xlsxwriter */

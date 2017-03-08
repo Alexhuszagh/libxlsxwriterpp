@@ -8,7 +8,6 @@
 
 #include "chart.hpp"
 #include "format.hpp"
-#include "property.hpp"
 #include "worksheet.hpp"
 #include <xlsxwriter/workbook.h>
 
@@ -39,6 +38,25 @@ public:
     Options(const std::string &tmpdir);
     Options(const bool constant_memory,
         const std::string &tmpdir);
+};
+
+
+// TODO: i need to make this prettier, and also automatically clean up
+// pointers inside lxw_doc_properties
+class Properties
+{
+protected:
+    lxw_doc_properties *ptr = nullptr;
+    friend class Workbook;
+
+public:
+    Properties();
+    Properties(const Properties&) = delete;
+    Properties & operator=(const Properties&) = delete;
+    Properties(Properties &&other);
+    Properties & operator=(Properties &&other);
+
+    ~Properties();
 };
 
 

@@ -17,18 +17,4 @@ Chart::Chart(lxw_chart *ptr):
     ptr(ptr)
 {}
 
-
-Chart::Chart(Chart &&other):
-    ptr(other.ptr)
-{
-    other.ptr = nullptr;
-}
-
-
-Chart & Chart::operator=(Chart &&other)
-{
-    ptr = other.ptr;
-    other.ptr = nullptr;
-}
-
 }   /* xlsxwriter */

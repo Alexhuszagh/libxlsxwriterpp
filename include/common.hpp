@@ -15,7 +15,6 @@ namespace xlsxwriter
 // OBJECTS
 // -------
 
-// TODO: use a custom datetime formatter???
 typedef lxw_datetime Datetime;
 
 

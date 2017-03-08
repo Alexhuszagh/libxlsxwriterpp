@@ -30,7 +30,6 @@ endif()
 set(LXWPP_SOURCES
     src/chart.cpp
     src/format.cpp
-    src/property.cpp
     src/utility.cpp
     src/workbook.cpp
     src/worksheet.cpp

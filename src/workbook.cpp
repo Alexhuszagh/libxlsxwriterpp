@@ -64,6 +64,31 @@ Options::Options(const bool const_memory,
 }
 
 
+Properties::Properties():
+    ptr(new lxw_doc_properties)
+{}
+
+
+Properties::Properties(Properties &&other):
+    ptr(other.ptr)
+{
+    other.ptr = nullptr;
+}
+
+
+Properties & Properties::operator=(Properties &&other)
+{
+    ptr = other.ptr;
+    other.ptr = nullptr;
+}
+
+
+Properties::~Properties()
+{
+    delete ptr;
+}
+
+
 Workbook::Workbook(Workbook &&other):
     ptr(other.ptr)
 {

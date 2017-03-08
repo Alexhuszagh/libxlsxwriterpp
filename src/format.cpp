@@ -17,18 +17,4 @@ Format::Format(lxw_format *ptr):
     ptr(ptr)
 {}
 
-
-Format::Format(Format &&other):
-    ptr(other.ptr)
-{
-    other.ptr = nullptr;
-}
-
-
-Format & Format::operator=(Format &&other)
-{
-    ptr = other.ptr;
-    other.ptr = nullptr;
-}
-
 }   /* xlsxwriter */

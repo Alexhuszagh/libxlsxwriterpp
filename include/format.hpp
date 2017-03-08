@@ -22,13 +22,14 @@ protected:
     lxw_format *ptr = nullptr;
 
     friend class Workbook;
+    friend class Worksheet;
 
     Format(lxw_format *ptr);
 
 public:
-    Format() = delete;
-    Format(const Format&) = delete;
-    Format & operator=(const Format&) = delete;
+    Format() = default;
+    Format(const Format&) = default;
+    Format & operator=(const Format&) = default;
     Format(Format &&other);
     Format & operator=(Format &&other);
 };
