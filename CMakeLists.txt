@@ -12,6 +12,7 @@ option(BUILD_STATIC "Build static libxlsxwriter" ON)
 # CONFIGURATIONS
 # --------------
 
+set_property(GLOBAL PROPERTY CXX_STANDARD 11)
 if(BUILD_STATIC)
     if(UNIX)
         set(CMAKE_POSITION_INDEPENDENT_CODE ON)
