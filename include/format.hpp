@@ -15,6 +15,8 @@ namespace xlsxwriter
 // OBJECTS
 // -------
 
+typedef uint32_t Color;
+
 
 class Format
 {

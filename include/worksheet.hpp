@@ -11,16 +11,80 @@
 
 #include <deque>
 #include <string>
+#include <vector>
 #include <xlsxwriter/worksheet.h>
 
 
 namespace xlsxwriter
 {
+// ENUMS
+// -----
+
+enum class PaperType: uint8_t
+{
+    DEFAULT = 0,
+    LETTER,
+    LETTER_SMALL,
+    TABLOID,
+    LEDGER,
+    LEGAL,
+    STATEMENT,
+    EXECUTIVE,
+    A3,
+    A4,
+    A4_SMALL,
+    A5,
+    B5,
+    FOLIO,
+    QUARTO,
+    NOTE = 18,
+    ENVELOPE_9,
+    ENVELOPE_10,
+    ENVELOPE_11,
+    ENVELOPE_12,
+    ENVELOPE_14,
+    C_SIZE_SHEET,
+    D_SIZE_SHEET,
+    E_SIZE_SHEET,
+    ENVELOPE_DL,
+    ENVELOPE_C3,
+    ENVELOPE_C4,
+    ENVELOPE_C5,
+    ENVELOPE_C6,
+    ENVELOPE_C65,
+    ENVELOPE_B4,
+    ENVELOPE_B5,
+    ENVELOPE_B6,
+    ENVELOPE,
+    MONARCH,
+    FANFOLD,
+    GERMAN_STD_FANFOLD,
+    GERMAN_LEGAL_FANFOLD,
+};
+
+
+enum class Gridlines: uint8_t
+{
+    HIDE_ALL = 0,
+    SHOW_SCREEN,
+    SHOW_PRINT,
+    SHOW_ALL,
+};
+
 // OBJECTS
 // -------
 
 typedef lxw_row_t Row;
 typedef lxw_col_t Column;
+typedef std::vector<Row> Rows;
+typedef std::vector<Column> Columns;
+
+
+// TODO: lxw_row_col_options
+// TODO: lxw_col_options
+// TODO: lxw_merged_range
+// TODO: lxw_repeat_rows
+// TODO: lxw_repeat_cols
 
 
 class Worksheet
@@ -92,12 +156,6 @@ public:
         const Format &format = Format());
 
     // URL
-    void write(const Row row,
-        const Column col,
-        const std::string &url,
-        const Format &format = Format(),
-        const std::string &string = "",
-        const std::string &tooltip = "");
     void write_url(const Row row,
         const Column col,
         const std::string &url,
@@ -106,59 +164,88 @@ public:
         const std::string &tooltip = "");
 
     // FORMULA
-    void write(const Row row,
-        const Column col,
-        const std::string &formula,
-        const Format &format = Format(),
-        const double result = 0);
     void write_formula(const Row row,
         const Column col,
         const std::string &formula,
         const Format &format = Format(),
         const double result = 0);
+    void write_array_formula(const Row first_row,
+        const Column first_col,
+        const Row last_row,
+        const Column last_col,
+        const std::string &formula,
+        const Format &format = Format(),
+        const double result = 0);
 
+    // FORMAT
 //    worksheet_set_row
 //    worksheet_set_column
-//    worksheet_write_url
-//    write_formula();
-//    worksheet_write_array_formula
-
 //    worksheet_merge_range
 //    worksheet_merge_range
 //    worksheet_insert_chart
 //    worksheet_insert_image
-//    worksheet_autofilter
-//    worksheet_activate
-//    worksheet_select
-//    worksheet_hide
-//    worksheet_set_first_sheet
-//    worksheet_freeze_panes
-//    worksheet_split_panes
-//    worksheet_set_selection
-//    worksheet_set_landscape
-//    worksheet_set_portrait
-//    worksheet_set_page_view
-//    worksheet_set_paper
-//    worksheet_set_margins
-//    worksheet_set_header
-//    worksheet_set_footer
-//    worksheet_set_h_pagebreaks
-//    worksheet_set_v_pagebreaks
-//    worksheet_print_across
-//    worksheet_set_zoom
-//    worksheet_gridlines
-//    worksheet_center_horizontally
-//    worksheet_center_vertically
-//    worksheet_print_row_col_headers
-//    worksheet_repeat_rows
-//    worksheet_repeat_columns
-//    worksheet_print_area
-//    worksheet_fit_to_pages
-//    worksheet_set_start_page
-//    worksheet_set_print_scale
-//    worksheet_right_to_left
-//    worksheet_hide_zero
-//    worksheet_set_tab_color
+    void autofilter(const Row first_row,
+        const Column first_col,
+        const Row last_row,
+        const Column last_col);
+    void activate();
+    void select();
+    void hide();
+    void set_first_sheet();
+    void freeze_panes(const Row row,
+        const Column col);
+    void freeze_panes(const Row first_row,
+        const Column first_col,
+        const Row top_row,
+        const Column top_col);
+    void split_panes(const Row row,
+        const Column col);
+    void split_panes(const Row first_row,
+        const Column first_col,
+        const Row top_row,
+        const Column top_col);
+    void set_selection(const Row first_row,
+        const Column first_col,
+        const Row last_row,
+        const Column last_col);
+    void set_landscape();
+    void set_portrait();
+    void set_page_view();
+    void set_paper(const PaperType type);
+    void set_margins(const double left,
+        const double right,
+        const double top,
+        const double bottom);
+    void set_header(const std::string &string,
+        const double margin = 0.3);
+    void set_footer(const std::string &string,
+        const double margin = 0.3);
+    void set_h_pagebreaks(Rows &rows);
+    void set_h_pagebreaks(Rows &&rows);
+    void set_v_pagebreaks(Columns &columns);
+    void set_v_pagebreaks(Columns &&columns);
+    void print_across();
+    void set_zoom(const uint16_t scale);
+    void gridlines(const Gridlines options);
+    void center_horizontally();
+    void center_vertically();
+    void print_row_col_headers();
+    void repeat_rows(const Row first_row,
+        const Row last_row);
+    void repeat_columns(const Column first_col,
+        const Column last_col);
+    void print_area(const Row first_row,
+        const Column first_col,
+        const Row last_row,
+        const Column last_col);
+    void fit_to_pages(const uint16_t width,
+        const uint16_t height);
+    void set_start_page(const uint16_t start_page);
+    void set_print_scale(const uint16_t scale);
+    void right_to_left();
+    void hide_zero();
+    void set_tab_color(const Color color);
+
 //    worksheet_protect
 //    worksheet_set_default_row
 };
