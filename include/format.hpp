@@ -6,17 +6,106 @@
 
 #pragma once
 
-#include <cstdio>
+#include "common.hpp"
+
 #include <string>
 #include <xlsxwriter/format.h>
 
 
 namespace xlsxwriter
 {
+// ENUMS
+// -----
+
+
+enum class Underlines: uint8_t
+{
+    SINGLE = 1,
+    DOUBLE,
+    SINGLE_ACCOUNTING,
+    DOUBLE_ACCOUNTING,
+};
+
+
+enum class FontScripts: uint8_t
+{
+    SUPERSCRIPT = 1,
+    SUBSCRIPT,
+};
+
+
+enum class Aligments: uint8_t
+{
+    NONE = 0,
+    LEFT,
+    CENTER,
+    RIGHT,
+    FILL,
+    JUSTIFY,
+    CENTER_ACROSS,
+    DISTRIBUTED,
+    VERTICAL_TOP,
+    VERTICAL_BOTTOM,
+    VERTICAL_CENTER,
+    VERTICAL_JUSTIFY,
+    VERTICAL_DISTRIBUTED,
+};
+
+
+enum class Patterns: uint8_t
+{
+    NONE = 0,
+    SOLID,
+    MEDIUM_GRAY,
+    DARK_GRAY,
+    LIGHT_GRAY,
+    DARK_HORIZONTAL,
+    DARK_VERTICAL,
+    DARK_DOWN,
+    DARK_UP,
+    DARK_GRID,
+    DARK_TRELLIS,
+    LIGHT_HORIZONTAL,
+    LIGHT_VERTICAL,
+    LIGHT_DOWN,
+    LIGHT_UP,
+    LIGHT_GRID,
+    LIGHT_TRELLIS,
+    GRAY_125,
+    GRAY_0625,
+};
+
+
+enum class Borders: uint8_t
+{
+    NONE = 0,
+    THIN,
+    MEDIUM,
+    DASHED,
+    DOTTED,
+    THICK,
+    DOUBLE,
+    HAIR,
+    MEDIUM_DASHED,
+    DASH_DOT,
+    MEDIUM_DASH_DOT,
+    DASH_DOT_DOT,
+    MEDIUM_DASH_DOT_DOT,
+    SLANT_DASH_DOT,
+};
+
+
+enum class Diagonals: uint8_t
+{
+    BORDER_UP = 1,
+    BORDER_DOWN,
+    BORDER_UP_DOWN,
+};
+
 // OBJECTS
 // -------
 
-typedef uint32_t Color;
+typedef lxw_color_t Color;
 
 
 class Format
@@ -41,44 +130,38 @@ public:
     void set_font_color(const Color color);
     void set_bold();
     void set_italic();
-    //void set_underline();
+    void set_underline(const Underlines style = Underlines::SINGLE);
     void set_font_strikeout();
-// TODO: add methods
-//    format_set_font_script
-//    format_set_num_format
-//    format_set_num_format_index
-//    format_set_unlocked
-//    format_set_hidden
-//    format_set_align
-//    format_set_text_wrap
-//    format_set_rotation
-//    format_set_indent
-//    format_set_shrink
-//    format_set_pattern
-//    format_set_bg_color
-//    format_set_fg_color
-//    format_set_border
-//    format_set_bottom
-//    format_set_top
-//    format_set_left
-//    format_set_right
-//    format_set_border_color
-//    format_set_bottom_color
-//    format_set_top_color
-//    format_set_left_color
-//    format_set_right_color
-//    format_set_diag_type
-//    format_set_diag_color
-//    format_set_diag_border
-//    format_set_font_outline
-//    format_set_font_shadow
-//    format_set_font_family
-//    format_set_font_charset
-//    format_set_font_scheme
-//    format_set_font_condense
-//    format_set_font_extend
-//    format_set_reading_order
-//    format_set_theme
+    void set_font_script(const FontScripts script);
+    void set_num_format(const std::string &format);
+    void set_num_format_index(const uint8_t index);
+    void set_unlocked();
+    void set_hidden();
+    void set_align(const Aligments aligment);
+    void set_text_wrap();
+    void set_rotation(const int16_t angle);
+    void set_indent(const int8_t level);
+    void set_shrink();
+    void set_pattern(const Patterns pattern);
+    void set_bg_color(const Color color);
+    void set_fg_color(const Color color);
+    void set_border(const Borders style);
+    void set_bottom(const Borders style);
+    void set_top(const Borders style);
+    void set_left(const Borders style);
+    void set_right(const Borders style);
+    void set_border_color(const Color color);
+    void set_bottom_color(const Color color);
+    void set_top_color(const Color color);
+    void set_left_color(const Color color);
+    void set_right_color(const Color color);
+    void set_diag_type(const Diagonals type);
+    void set_diag_color(const Color color);
+    void set_diag_border(const Borders style);
+    void set_font_outline();
+    void set_font_shadow();
+    void set_font_condense();
+    void set_font_extend();
 };
 
 }   /* xlsxwriter */

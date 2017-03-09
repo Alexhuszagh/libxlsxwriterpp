@@ -18,8 +18,9 @@ namespace xlsxwriter
 
 typedef lxw_row_t Row;
 typedef lxw_col_t Column;
+typedef lxw_datetime Datetime;
+
 typedef std::vector<Row> Rows;
 typedef std::vector<Column> Columns;
-typedef lxw_datetime Datetime;
 
 }   /* xlsxwriter */
