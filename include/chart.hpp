@@ -139,6 +139,47 @@ enum class ChartBlank: uint8_t
     AS_CONNECTED,
 };
 
+
+enum class ChartAxisPosition: uint8_t
+{
+    DEFAULT = 0,
+    ON_TICK,
+};
+
+
+enum class ChartAxisLabelPosition: uint8_t
+{
+    NEXT_TO = 0,
+    HIGH,
+    LOW,
+    NONE,
+};
+
+
+enum class TickMark: uint8_t
+{
+    DEFAULT = 0,
+    NONE,
+    INSIDE,
+    OUTSIDE,
+    CROSSING,
+};
+
+
+enum class DisplayUnits: uint8_t
+{
+    NONE = 0,
+    HUNDREDS,
+    THOUSANDS,
+    TEN_THOUSANDS,
+    HUNDRED_THOUSANDS,
+    MILLIONS,
+    TEN_MILLIONS,
+    HUNDRED_MILLIONS,
+    BILLIONS,
+    TRILLIONS,
+};
+
 // OBJECTS
 // -------
 
@@ -149,6 +190,7 @@ typedef lxw_chart_pattern ChartPattern;
 typedef lxw_chart_font ChartFont;
 typedef lxw_chart_point ChartPoint;
 typedef std::vector<ChartPoint> ChartPoints;
+typedef std::vector<uint16_t> Series;
 
 
 class ChartSeries
@@ -270,24 +312,23 @@ public:
     void set_crossing(const double value);
     void set_crossing_max();
     void axis_off();
-
-//set_position
-//set_label_position
-//set_min
-//set_max
-//set_log_base
-//set_major_tick_mark
-//set_minor_tick_mark
-//set_interval_unit
-//set_interval_tick
-//set_major_unit
-//set_minor_unit
-//set_display_units
-//set_display_units_visible
-//major_gridlines_set_visible
-//minor_gridlines_set_visible
-//major_gridlines_set_line
-//minor_gridlines_set_line
+    void set_position(const ChartAxisPosition position);
+    void set_label_position(const ChartAxisLabelPosition position);
+    void set_min(const double min);
+    void set_max(const double max);
+    void set_log_base(const uint16_t log_base);
+    void set_major_tick_mark(const TickMark type);
+    void set_minor_tick_mark(const TickMark type);
+    void set_interval_unit(const uint16_t unit);
+    void set_interval_tick(const uint16_t unit);
+    void set_major_unit(const double unit);
+    void set_minor_unit(const double unit);
+    void set_display_units(const DisplayUnits units);
+    void set_display_units_visible(const bool visible);
+    void major_gridlines_set_visible(const bool visible);
+    void minor_gridlines_set_visible(const bool visible);
+    void major_gridlines_set_line(const ChartLine &line);
+    void minor_gridlines_set_line(const ChartLine &line);
 
 };
 
@@ -297,6 +338,7 @@ class Chart
 protected:
     lxw_chart *ptr = nullptr;
     friend class Workbook;
+    friend class Worksheet;
 
     Chart(lxw_chart *ptr);
 
@@ -317,32 +359,31 @@ public:
     void set_name_range(const std::string &name,
         const Row row,
         const Column col);
-// chart_title_set_name_font
+    void set_name_font(const ChartFont &font);
     void title_off();
     void set_legend_position(const LegendPosition position);
-
-// chart_legend_set_font
-// chart_legend_delete_series
-// chart_chartarea_set_line
-// chart_chartarea_set_fill
-// chart_chartarea_set_pattern
-// chart_plotarea_set_line
-// chart_plotarea_set_fill
-// chart_plotarea_set_pattern
-
+    void set_legend_font(const ChartFont &font);
+    void delete_legend_series(const Series &series);
+    void set_chartarea_line(const ChartLine &line);
+    void set_chartarea_fill(const ChartFill &fill);
+    void set_chartarea_pattern(const ChartPattern &pattern);
+    void set_plotarea_line(const ChartLine &line);
+    void set_plotarea_fill(const ChartFill &fill);
+    void set_plotarea_pattern(const ChartPattern &pattern);
     void set_style(const uint8_t style);
     void set_table();
     void set_table_grid(const bool horizontal,
         const bool vertical,
         const bool outline,
         const bool legend_keys);
-
-// chart_set_table_font
+    void set_table_font(const ChartFont &font);
     void set_up_down_bars();
-//
-// chart_set_up_down_bars_format
-// chart_set_drop_lines
-// chart_set_high_low_lines
+    void set_up_down_bars_format(const ChartLine &up_bar_line,
+        const ChartFill &up_bar_fill,
+        const ChartLine &down_bar_line,
+        const ChartFill &down_bar_fill);
+    void set_drop_lines(const ChartLine &line);
+    void set_high_low_lines(const ChartLine &line);
     void set_series_overlap(const uint8_t overlap);
     void set_series_gap(const uint16_t gap);
     void show_blanks_as(const ChartBlank option);

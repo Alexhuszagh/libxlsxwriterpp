@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "chart.hpp"
 #include "common.hpp"
 #include "format.hpp"
 
@@ -72,11 +73,10 @@ enum class Gridlines: uint8_t
 // OBJECTS
 // -------
 
-// TODO: lxw_row_col_options
-// TODO: lxw_col_options
-// TODO: lxw_merged_range
-// TODO: lxw_repeat_rows
-// TODO: lxw_repeat_cols
+typedef lxw_row_col_options RowColOptions;
+typedef lxw_col_options ColumnOptions;
+typedef lxw_image_options ImageOptions;
+typedef lxw_protection Protection;
 
 
 class Worksheet
@@ -170,13 +170,29 @@ public:
         const double result = 0);
 
     // FORMAT
-// TODO:
-//    worksheet_set_row
-//    worksheet_set_column
-//    worksheet_merge_range
-//    worksheet_merge_range
-//    worksheet_insert_chart
-//    worksheet_insert_image
+    void set_row(const Row row,
+        const double height,
+        const Format &format = Format(),
+        const RowColOptions &options = RowColOptions {0});
+    void set_column(const Column first_col,
+        const Column last_col,
+        const double width,
+        const Format &format = Format(),
+        const RowColOptions &options = RowColOptions {0});
+    void merge_range(const Row first_row,
+        const Column first_col,
+        const Row last_row,
+        const Column last_col,
+        const std::string &string,
+        const Format &format = Format());
+    void insert_chart(const Row row,
+        const Column col,
+        const Chart &chart,
+        const ImageOptions &options = ImageOptions {0});
+    void insert_image(const Row row,
+        const Column col,
+        const std::string &filename,
+        const ImageOptions &options = ImageOptions {0});
     void autofilter(const Row first_row,
         const Column first_col,
         const Row last_row,
@@ -238,10 +254,10 @@ public:
     void right_to_left();
     void hide_zero();
     void set_tab_color(const Color color);
-
-// TODO:
-//    worksheet_protect
-//    worksheet_set_default_row
+    void protect(const std::string &password,
+        const Protection &options);
+    void set_default_row(const double height,
+        const bool hide_unused_rows);
 };
 
 typedef std::deque<Worksheet> Worksheets;

@@ -384,6 +384,125 @@ void ChartAxis::axis_off()
 }
 
 
+void ChartAxis::set_position(const ChartAxisPosition position)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_position(ptr, FROM_ENUM(position));
+}
+
+
+void ChartAxis::set_label_position(const ChartAxisLabelPosition position)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_label_position(ptr, FROM_ENUM(position));
+}
+
+
+void ChartAxis::set_min(const double min)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_min(ptr, min);
+}
+
+
+void ChartAxis::set_max(const double max)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_max(ptr, max);
+}
+
+
+void ChartAxis::set_log_base(const uint16_t log_base)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_log_base(ptr, log_base);
+}
+
+
+void ChartAxis::set_major_tick_mark(const TickMark type)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_major_tick_mark(ptr, FROM_ENUM(type));
+}
+
+
+void ChartAxis::set_minor_tick_mark(const TickMark type)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_minor_tick_mark(ptr, FROM_ENUM(type));
+}
+
+
+void ChartAxis::set_interval_unit(const uint16_t unit)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_interval_unit(ptr, unit);
+}
+
+
+void ChartAxis::set_interval_tick(const uint16_t unit)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_interval_tick(ptr, unit);
+}
+
+
+void ChartAxis::set_major_unit(const double unit)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_major_unit(ptr, unit);
+}
+
+
+void ChartAxis::set_minor_unit(const double unit)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_minor_unit(ptr, unit);
+}
+
+
+void ChartAxis::set_display_units(const DisplayUnits units)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_display_units(ptr, FROM_ENUM(units));
+}
+
+
+void ChartAxis::set_display_units_visible(const bool visible)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_set_display_units_visible(ptr, visible);
+}
+
+
+void ChartAxis::major_gridlines_set_visible(const bool visible)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_major_gridlines_set_visible(ptr, visible);
+}
+
+
+void ChartAxis::minor_gridlines_set_visible(const bool visible)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_minor_gridlines_set_visible(ptr, visible);
+}
+
+
+void ChartAxis::major_gridlines_set_line(const ChartLine &line)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_major_gridlines_set_line(ptr, const_cast<ChartLine*>(&line));
+}
+
+
+void ChartAxis::minor_gridlines_set_line(const ChartLine &line)
+{
+    assert(ptr && "ChartAxis cannot be null.");
+    chart_axis_minor_gridlines_set_line(ptr, const_cast<ChartLine*>(&line));
+}
+
+
 Chart::Chart(lxw_chart *ptr):
     ptr(ptr)
 {}
@@ -429,6 +548,13 @@ void Chart::set_name_range(const std::string &name,
 }
 
 
+void Chart::set_name_font(const ChartFont &font)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_title_set_name_font(ptr, const_cast<ChartFont*>(&font));
+}
+
+
 void Chart::title_off()
 {
     assert(ptr && "Chart cannot be null.");
@@ -440,6 +566,69 @@ void Chart::set_legend_position(const LegendPosition position)
 {
     assert(ptr && "Chart cannot be null.");
     chart_legend_set_position(ptr, FROM_ENUM(position));
+}
+
+
+void Chart::set_legend_font(const ChartFont &font)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_legend_set_font(ptr, const_cast<ChartFont*>(&font));
+}
+
+
+void Chart::delete_legend_series(const Series &series)
+{
+    assert(ptr && "Chart cannot be null.");
+    auto *buffer = new int16_t[series.size()+1];
+    for (size_t i = 0; i < series.size(); ++i) {
+        buffer[i] = series[i];
+    }
+    buffer[series.size()] = -1;
+    LXW_CHECK(chart_legend_delete_series(ptr, buffer));
+
+    delete[] buffer;
+}
+
+
+void Chart::set_chartarea_line(const ChartLine &line)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_chartarea_set_line(ptr, const_cast<ChartLine*>(&line));
+}
+
+
+void Chart::set_chartarea_fill(const ChartFill &fill)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_chartarea_set_fill(ptr, const_cast<ChartFill*>(&fill));
+}
+
+
+void Chart::set_chartarea_pattern(const ChartPattern &pattern)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_chartarea_set_pattern(ptr, const_cast<ChartPattern*>(&pattern));
+}
+
+
+void Chart::set_plotarea_line(const ChartLine &line)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_plotarea_set_line(ptr, const_cast<ChartLine*>(&line));
+}
+
+
+void Chart::set_plotarea_fill(const ChartFill &fill)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_plotarea_set_fill(ptr, const_cast<ChartFill*>(&fill));
+}
+
+
+void Chart::set_plotarea_pattern(const ChartPattern &pattern)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_plotarea_set_pattern(ptr, const_cast<ChartPattern*>(&pattern));
 }
 
 
@@ -467,10 +656,41 @@ void Chart::set_table_grid(const bool horizontal,
 }
 
 
+void Chart::set_table_font(const ChartFont &font)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_set_table_font(ptr, const_cast<ChartFont*>(&font));
+}
+
+
 void Chart::set_up_down_bars()
 {
     assert(ptr && "Chart cannot be null.");
     chart_set_up_down_bars(ptr);
+}
+
+
+void Chart::set_up_down_bars_format(const ChartLine &up_bar_line,
+    const ChartFill &up_bar_fill,
+    const ChartLine &down_bar_line,
+    const ChartFill &down_bar_fill)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_set_up_down_bars_format(ptr, const_cast<ChartLine*>(&up_bar_line), const_cast<ChartFill*>(&up_bar_fill), const_cast<ChartLine*>(&down_bar_line), const_cast<ChartFill*>(&down_bar_fill));
+}
+
+
+void Chart::set_drop_lines(const ChartLine &line)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_set_drop_lines(ptr, const_cast<ChartLine*>(&line));
+}
+
+
+void Chart::set_high_low_lines(const ChartLine &line)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_set_high_low_lines(ptr, const_cast<ChartLine*>(&line));
 }
 
 

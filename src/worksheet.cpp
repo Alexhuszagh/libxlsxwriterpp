@@ -152,7 +152,59 @@ void Worksheet::write_array_formula(const Row first_row,
     const double result)
 {
     assert(ptr && "Worksheet cannot be null.");
-    LXW_CHECK(worksheet_write_array_formula_num(ptr, first_row, first_col, last_row, last_col, formula.data(), format.ptr, result))
+    LXW_CHECK(worksheet_write_array_formula_num(ptr, first_row, first_col, last_row, last_col, formula.data(), format.ptr, result));
+}
+
+
+void Worksheet::set_row(const Row row,
+    const double height,
+    const Format &format,
+    const RowColOptions &options)
+{
+    assert(ptr && "Worksheet cannot be null.");
+    LXW_CHECK(worksheet_set_row_opt(ptr, row, height, format.ptr, const_cast<RowColOptions*>(&options)));
+}
+
+
+void Worksheet::set_column(const Column first_col,
+    const Column last_col,
+    const double width,
+    const Format &format,
+    const RowColOptions &options)
+{
+    assert(ptr && "Worksheet cannot be null.");
+    LXW_CHECK(worksheet_set_column_opt(ptr, first_col, last_col, width, format.ptr, const_cast<RowColOptions*>(&options)));
+}
+
+
+void Worksheet::merge_range(const Row first_row,
+    const Column first_col,
+    const Row last_row,
+    const Column last_col,
+    const std::string &string,
+    const Format &format)
+{
+    assert(ptr && "Worksheet cannot be null.");
+}
+
+
+void Worksheet::insert_chart(const Row row,
+    const Column col,
+    const Chart &chart,
+    const ImageOptions &options)
+{
+    assert(ptr && "Worksheet cannot be null.");
+    LXW_CHECK(worksheet_insert_chart_opt(ptr, row, col, chart.ptr, const_cast<ImageOptions*>(&options)));
+}
+
+
+void Worksheet::insert_image(const Row row,
+    const Column col,
+    const std::string &filename,
+    const ImageOptions &options)
+{
+    assert(ptr && "Worksheet cannot be null.");
+    LXW_CHECK(worksheet_insert_image_opt(ptr, row, col, filename.data(), const_cast<ImageOptions*>(&options)));
 }
 
 
@@ -433,6 +485,22 @@ void Worksheet::set_tab_color(const Color color)
 {
     assert(ptr && "Worksheet cannot be null.");
     worksheet_set_tab_color(ptr, color);
+}
+
+
+void Worksheet::protect(const std::string &password,
+    const Protection &options)
+{
+    assert(ptr && "Worksheet cannot be null.");
+    worksheet_protect(ptr, password.data(), const_cast<Protection*>(&options));
+}
+
+
+void Worksheet::set_default_row(const double height,
+    const bool hide_unused_rows)
+{
+    assert(ptr && "Worksheet cannot be null.");
+    worksheet_set_default_row(ptr, height, hide_unused_rows);
 }
 
 }   /* xlsxwriter */

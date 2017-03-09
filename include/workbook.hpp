@@ -75,8 +75,10 @@ public:
         const int32_t value);
     void set_custom_property(const std::string &name,
         const bool value);
-    // TODO: set_custom_property(datetime)
-    // TODO: workbook_define_name
+    void set_custom_property(const std::string &name,
+        const Datetime &datetime);
+    void define_name(const std::string &name,
+        const std::string &formula);
 };
 
 }   /* xlsxwriter */

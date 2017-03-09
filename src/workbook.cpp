@@ -118,6 +118,7 @@ void Workbook::close()
 
 Worksheets Workbook::worksheets()
 {
+    assert(ptr && "Workbook is already closed\n");
     Worksheets sheets;
     lxw_worksheet *worksheet;
     LXW_FOREACH_WORKSHEET(worksheet, ptr) {
@@ -144,6 +145,7 @@ void Workbook::set_properties(const Properties &properties)
 void Workbook::set_custom_property(const std::string &name,
     const std::string &value)
 {
+    assert(ptr && "Workbook is already closed\n");
     LXW_CHECK(workbook_set_custom_property_string(ptr, name.data(), value.data()));
 }
 
@@ -151,6 +153,7 @@ void Workbook::set_custom_property(const std::string &name,
 void Workbook::set_custom_property(const std::string &name,
     const double value)
 {
+    assert(ptr && "Workbook is already closed\n");
     LXW_CHECK(workbook_set_custom_property_number(ptr, name.data(), value));
 }
 
@@ -158,6 +161,7 @@ void Workbook::set_custom_property(const std::string &name,
 void Workbook::set_custom_property(const std::string &name,
     const int32_t value)
 {
+    assert(ptr && "Workbook is already closed\n");
     LXW_CHECK(workbook_set_custom_property_integer(ptr, name.data(), value));
 }
 
@@ -165,12 +169,24 @@ void Workbook::set_custom_property(const std::string &name,
 void Workbook::set_custom_property(const std::string &name,
     const bool value)
 {
+    assert(ptr && "Workbook is already closed\n");
     LXW_CHECK(workbook_set_custom_property_boolean(ptr, name.data(), value));
 }
 
 
-// TODO: specialize
-//workbook_set_custom_property_datetime
-//workbook_define_name
+void Workbook::set_custom_property(const std::string &name,
+    const Datetime &datetime)
+{
+    assert(ptr && "Workbook is already closed\n");
+    LXW_CHECK(workbook_set_custom_property_datetime(ptr, name.data(), const_cast<Datetime*>(&datetime)));
+}
+
+
+void Workbook::define_name(const std::string &name,
+    const std::string &formula)
+{
+    assert(ptr && "Workbook is already closed\n");
+    LXW_CHECK(workbook_define_name(ptr, name.data(), formula.data()));
+}
 
 }   /* xlsxwriter */
