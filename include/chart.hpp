@@ -18,33 +18,90 @@ namespace xlsxwriter
 // -----
 
 
-enum class ChartType: int
+enum class ChartType: uint8_t
 {
-    LXW_CHART_NONE = 0,
-    LXW_CHART_AREA,
-    LXW_CHART_AREA_STACKED,
-    LXW_CHART_AREA_STACKED_PERCENT,
-    LXW_CHART_BAR,
-    LXW_CHART_BAR_STACKED,
-    LXW_CHART_BAR_STACKED_PERCENT,
-    LXW_CHART_COLUMN,
-    LXW_CHART_COLUMN_STACKED,
-    LXW_CHART_COLUMN_STACKED_PERCENT,
-    LXW_CHART_DOUGHNUT,
-    LXW_CHART_LINE,
-    LXW_CHART_PIE,
-    LXW_CHART_SCATTER,
-    LXW_CHART_SCATTER_STRAIGHT,
-    LXW_CHART_SCATTER_STRAIGHT_WITH_MARKERS,
-    LXW_CHART_SCATTER_SMOOTH,
-    LXW_CHART_SCATTER_SMOOTH_WITH_MARKERS,
-    LXW_CHART_RADAR,
-    LXW_CHART_RADAR_WITH_MARKERS,
-    LXW_CHART_RADAR_FILLED
+    NONE = 0,
+    AREA,
+    AREA_STACKED,
+    AREA_STACKED_PERCENT,
+    BAR,
+    BAR_STACKED,
+    BAR_STACKED_PERCENT,
+    COLUMN,
+    COLUMN_STACKED,
+    COLUMN_STACKED_PERCENT,
+    DOUGHNUT,
+    LINE,
+    PIE,
+    SCATTER,
+    SCATTER_STRAIGHT,
+    SCATTER_STRAIGHT_WITH_MARKERS,
+    SCATTER_SMOOTH,
+    SCATTER_SMOOTH_WITH_MARKERS,
+    RADAR,
+    RADAR_WITH_MARKERS,
+    RADAR_FILLED,
+};
+
+
+enum class MarkerType: uint8_t
+{
+    AUTOMATIC = 0,
+    NONE,
+    SQUARE,
+    DIAMOND,
+    TRIANGLE,
+    X,
+    STAR,
+    SHORT_DASH,
+    LONG_DASH,
+    CIRCLE,
+    PLUS,
+};
+
+
+enum class LabelSeparators: uint8_t
+{
+    COMMA = 0,
+    SEMICOLON,
+    PERIOD,
+    NEWLINE,
+    SPACE,
+};
+
+
+enum class ChartLabelPosition: uint8_t
+{
+    DEFAULT = 0,
+    CENTER,
+    RIGHT,
+    LEFT,
+    ABOVE,
+    BELOW,
+    INSIDE_BASE,
+    INSIDE_END,
+    OUTSIDE_END,
+    BEST_FIT,
 };
 
 // OBJECTS
 // -------
+
+
+class ChartLine
+{};
+
+
+class ChartFill
+{};
+
+
+class ChartPattern
+{};
+
+
+class ChartPoint
+{};
 
 
 class ChartSeries
@@ -75,27 +132,37 @@ public:
         const Row last_row,
         const Column last_col);
     void set_name(const std::string &name);
+    void set_name_range(const std::string &name,
+        const Row row,
+        const Column col);
 
 // TODO: add methods
-//chart_series_set_name_range
 //chart_series_set_line
 //chart_series_set_fill
-//chart_series_set_invert_if_negative
+
+    void invert_if_negative();
+
 //chart_series_set_pattern
-//chart_series_set_marker_type
-//chart_series_set_marker_size
+
+    void set_marker_type(const MarkerType type);
+    void set_marker_size(const uint8_t size);
 //chart_series_set_marker_line
 //chart_series_set_marker_fill
 //chart_series_set_marker_pattern
+
 //chart_series_set_points
-//chart_series_set_smooth
-//chart_series_set_labels
-//chart_series_set_labels_options
-//chart_series_set_labels_separator
-//chart_series_set_labels_position
-//chart_series_set_labels_leader_line
-//chart_series_set_labels_legend
-//chart_series_set_labels_percentage
+    void set_smooth(const bool smooth);
+    void set_labels();
+    void set_labels_options(const bool show_name,
+        const bool show_category,
+        const bool show_value);
+    void set_labels_separator(const LabelSeparators separator);
+    void set_labels_position(const ChartLabelPosition position);
+    void set_labels_leader_line();
+    void set_labels_legend();
+    void set_labels_percentage();
+    void set_labels_num_format(const std::string &num_format);
+
 //chart_series_set_labels_num_format
 //chart_series_set_labels_font
 //chart_series_set_trendline

@@ -65,9 +65,10 @@ Options::Options(const bool const_memory,
 }
 
 
-Properties::Properties():
-    ptr(new lxw_doc_properties)
-{}
+Properties::Properties()
+{
+    ptr = new lxw_doc_properties {nullptr};
+}
 
 
 Properties::Properties(Properties &&other):
@@ -87,7 +88,72 @@ Properties & Properties::operator=(Properties &&other)
 
 Properties::~Properties()
 {
-    delete ptr;
+    if (ptr) {
+        free(ptr->title);
+        free(ptr->author);
+        free(ptr->manager);
+        free(ptr->company);
+        free(ptr->category);
+        free(ptr->keywords);
+        free(ptr->comments);
+        free(ptr->status);
+        free(ptr->hyperlink_base);
+        free(ptr);
+    }
+}
+
+
+void Properties::set_title(const std::string &string)
+{
+    ptr->title = lxw_strdup(string.data());
+}
+
+
+void Properties::set_author(const std::string &string)
+{
+    ptr->author = lxw_strdup(string.data());
+}
+
+
+void Properties::set_manager(const std::string &string)
+{
+    ptr->manager = lxw_strdup(string.data());
+}
+
+
+void Properties::set_company(const std::string &string)
+{
+    ptr->company = lxw_strdup(string.data());
+}
+
+
+void Properties::set_category(const std::string &string)
+{
+    ptr->category = lxw_strdup(string.data());
+}
+
+
+void Properties::set_keywords(const std::string &string)
+{
+    ptr->keywords = lxw_strdup(string.data());
+}
+
+
+void Properties::set_comments(const std::string &string)
+{
+    ptr->comments = lxw_strdup(string.data());
+}
+
+
+void Properties::set_status(const std::string &string)
+{
+    ptr->status = lxw_strdup(string.data());
+}
+
+
+void Properties::set_hyperlink_base(const std::string &string)
+{
+    ptr->hyperlink_base = lxw_strdup(string.data());
 }
 
 

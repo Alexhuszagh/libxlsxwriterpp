@@ -40,8 +40,6 @@ public:
 };
 
 
-// TODO: i need to make this prettier, and also automatically clean up
-// pointers inside lxw_doc_properties
 class Properties
 {
 protected:
@@ -56,6 +54,16 @@ public:
     Properties & operator=(Properties &&other);
 
     ~Properties();
+
+    void set_title(const std::string &string);
+    void set_author(const std::string &string);
+    void set_manager(const std::string &string);
+    void set_company(const std::string &string);
+    void set_category(const std::string &string);
+    void set_keywords(const std::string &string);
+    void set_comments(const std::string &string);
+    void set_status(const std::string &string);
+    void set_hyperlink_base(const std::string &string);
 };
 
 
