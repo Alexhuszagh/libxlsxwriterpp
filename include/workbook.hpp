@@ -40,31 +40,7 @@ public:
 };
 
 
-class Properties
-{
-protected:
-    lxw_doc_properties *ptr = nullptr;
-    friend class Workbook;
-
-public:
-    Properties();
-    Properties(const Properties&) = delete;
-    Properties & operator=(const Properties&) = delete;
-    Properties(Properties &&other);
-    Properties & operator=(Properties &&other);
-
-    ~Properties();
-
-    void set_title(const std::string &string);
-    void set_author(const std::string &string);
-    void set_manager(const std::string &string);
-    void set_company(const std::string &string);
-    void set_category(const std::string &string);
-    void set_keywords(const std::string &string);
-    void set_comments(const std::string &string);
-    void set_status(const std::string &string);
-    void set_hyperlink_base(const std::string &string);
-};
+typedef lxw_doc_properties Properties;
 
 
 class Workbook

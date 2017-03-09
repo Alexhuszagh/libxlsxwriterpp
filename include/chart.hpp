@@ -105,6 +105,21 @@ enum class ErrorBarType: uint8_t
 };
 
 
+enum class ErrorBarDirection: uint8_t
+{
+    BOTH = 0,
+    PLUS,
+    MINUS,
+};
+
+
+enum class ErrorBarCap: uint8_t
+{
+    END_CAP = 0,
+    NO_CAP,
+};
+
+
 enum class LegendPosition: uint8_t
 {
     NONE = 0,
@@ -116,24 +131,24 @@ enum class LegendPosition: uint8_t
     OVERLAY_LEFT,
 };
 
+
+enum class ChartBlank: uint8_t
+{
+    AS_GAP = 0,
+    AS_ZERO,
+    AS_CONNECTED,
+};
+
 // OBJECTS
 // -------
 
 
-class ChartLine
-{};
-
-
-class ChartFill
-{};
-
-
-class ChartPattern
-{};
-
-
-class ChartPoint
-{};
+typedef lxw_chart_line ChartLine;
+typedef lxw_chart_fill ChartFill;
+typedef lxw_chart_pattern ChartPattern;
+typedef lxw_chart_font ChartFont;
+typedef lxw_chart_point ChartPoint;
+typedef std::vector<ChartPoint> ChartPoints;
 
 
 class ChartSeries
@@ -167,22 +182,16 @@ public:
     void set_name_range(const std::string &name,
         const Row row,
         const Column col);
-
-// TODO: add methods
-//chart_series_set_line
-//chart_series_set_fill
-
+    void set_line(const ChartLine &line);
+    void set_fill(const ChartFill &fill);
     void invert_if_negative();
-
-//chart_series_set_pattern
-
+    void set_pattern(const ChartPattern &pattern);
     void set_marker_type(const MarkerType type);
     void set_marker_size(const uint8_t size);
-//chart_series_set_marker_line
-//chart_series_set_marker_fill
-//chart_series_set_marker_pattern
-
-//chart_series_set_points
+    void set_marker_line(const ChartLine &line);
+    void set_marker_fill(const ChartFill &fill);
+    void set_marker_pattern(const ChartPattern &pattern);
+    void set_points(const ChartPoints &points);
     void set_smooth(const bool smooth);
     void set_labels();
     void set_labels_options(const bool show_name,
@@ -194,9 +203,7 @@ public:
     void set_labels_legend();
     void set_labels_percentage();
     void set_labels_num_format(const std::string &num_format);
-
-//chart_series_set_labels_font
-
+    void set_labels_font(const ChartFont &font);
     void set_trendline(const TrendlineType type,
         const uint8_t value);
     void set_trendline_forecast(const double forward,
@@ -205,8 +212,7 @@ public:
     void set_trendline_r_squared();
     void set_trendline_intercept(const double intercept);
     void set_trendline_name(const std::string &name);
-
-//chart_series_set_trendline_line
+    void set_trendline_line(const ChartLine &line);
 };
 
 
@@ -228,42 +234,62 @@ public:
 
     void set_error_bars(const ErrorBarType type,
         const double value);
-//chart_series_set_error_bars_direction
-//chart_series_set_error_bars_endcap
-//chart_series_set_error_bars_line
+    void set_error_bars_direction(const ErrorBarDirection direction);
+    void set_error_bars_endcap(const ErrorBarCap endcap);
+    void set_error_bars_line(const ChartLine &line);
 };
 
 
-// TODO: add chart axis
-//chart_axis_set_name
-//chart_axis_set_name_range
-//chart_axis_set_name_font
-//chart_axis_set_num_font
-//chart_axis_set_num_format
-//chart_axis_set_line
-//chart_axis_set_fill
-//chart_axis_set_pattern
-//chart_axis_set_reverse
-//chart_axis_set_crossing
-//chart_axis_set_crossing_max
-//chart_axis_off
-//chart_axis_set_position
-//chart_axis_set_label_position
-//chart_axis_set_min
-//chart_axis_set_max
-//chart_axis_set_log_base
-//chart_axis_set_major_tick_mark
-//chart_axis_set_minor_tick_mark
-//chart_axis_set_interval_unit
-//chart_axis_set_interval_tick
-//chart_axis_set_major_unit
-//chart_axis_set_minor_unit
-//chart_axis_set_display_units
-//chart_axis_set_display_units_visible
-//chart_axis_major_gridlines_set_visible
-//chart_axis_minor_gridlines_set_visible
-//chart_axis_major_gridlines_set_line
-//chart_axis_minor_gridlines_set_line
+class ChartAxis
+{
+protected:
+    lxw_chart_axis *ptr = nullptr;
+
+    friend class Chart;
+
+    ChartAxis(lxw_chart_axis *ptr);
+
+public:
+    ChartAxis() = default;
+    ChartAxis(const ChartAxis&) = default;
+    ChartAxis & operator=(const ChartAxis&) = default;
+    ChartAxis(ChartAxis &&other) = default;
+    ChartAxis & operator=(ChartAxis &&other) = default;
+
+    void set_name(const std::string &name);
+    void set_name_range(const std::string &name,
+        const Row row,
+        const Column col);
+    void set_name_font(const ChartFont &font);
+    void set_num_font(const ChartFont &font);
+    void set_num_format(const std::string &num_format);
+    void set_line(const ChartLine &line);
+    void set_fill(const ChartFill &fill);
+    void set_pattern(const ChartPattern &pattern);
+    void set_reverse();
+    void set_crossing(const double value);
+    void set_crossing_max();
+    void axis_off();
+
+//set_position
+//set_label_position
+//set_min
+//set_max
+//set_log_base
+//set_major_tick_mark
+//set_minor_tick_mark
+//set_interval_unit
+//set_interval_tick
+//set_major_unit
+//set_minor_unit
+//set_display_units
+//set_display_units_visible
+//major_gridlines_set_visible
+//minor_gridlines_set_visible
+//major_gridlines_set_line
+//minor_gridlines_set_line
+
+};
 
 
 class Chart
@@ -284,12 +310,13 @@ public:
     // DATA
     ChartSeries add_series(const std::string &categories,
         const std::string &values);
+    ChartAxis x_axis();
+    ChartAxis y_axis();
+
     void set_name(const std::string &name);
     void set_name_range(const std::string &name,
         const Row row,
         const Column col);
-// TODO: add methods
-//
 // chart_title_set_name_font
     void title_off();
     void set_legend_position(const LegendPosition position);
@@ -316,12 +343,12 @@ public:
 // chart_set_up_down_bars_format
 // chart_set_drop_lines
 // chart_set_high_low_lines
-// chart_set_series_overlap
-// chart_set_series_gap
-// chart_show_blanks_as
-// chart_show_hidden_data
-// chart_set_rotation
-// chart_set_hole_size
+    void set_series_overlap(const uint8_t overlap);
+    void set_series_gap(const uint16_t gap);
+    void show_blanks_as(const ChartBlank option);
+    void show_hidden_data();
+    void set_rotation(const uint16_t rotation);
+    void set_hole_size(const uint8_t size);
 };
 
 }   /* xlsxwriter */

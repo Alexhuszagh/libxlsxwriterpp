@@ -65,105 +65,6 @@ Options::Options(const bool const_memory,
 }
 
 
-Properties::Properties()
-{
-    ptr = new lxw_doc_properties {nullptr};
-}
-
-
-Properties::Properties(Properties &&other):
-    ptr(other.ptr)
-{
-    other.ptr = nullptr;
-}
-
-
-Properties & Properties::operator=(Properties &&other)
-{
-    ptr = other.ptr;
-    other.ptr = nullptr;
-    return *this;
-}
-
-
-Properties::~Properties()
-{
-    if (ptr) {
-        free(ptr->title);
-        free(ptr->author);
-        free(ptr->manager);
-        free(ptr->company);
-        free(ptr->category);
-        free(ptr->keywords);
-        free(ptr->comments);
-        free(ptr->status);
-        free(ptr->hyperlink_base);
-        free(ptr);
-    }
-}
-
-
-void Properties::set_title(const std::string &string)
-{
-    ptr->title = lxw_strdup(string.data());
-}
-
-
-void Properties::set_author(const std::string &string)
-{
-    ptr->author = lxw_strdup(string.data());
-}
-
-
-void Properties::set_manager(const std::string &string)
-{
-    ptr->manager = lxw_strdup(string.data());
-}
-
-
-void Properties::set_company(const std::string &string)
-{
-    ptr->company = lxw_strdup(string.data());
-}
-
-
-void Properties::set_category(const std::string &string)
-{
-    ptr->category = lxw_strdup(string.data());
-}
-
-
-void Properties::set_keywords(const std::string &string)
-{
-    ptr->keywords = lxw_strdup(string.data());
-}
-
-
-void Properties::set_comments(const std::string &string)
-{
-    ptr->comments = lxw_strdup(string.data());
-}
-
-
-void Properties::set_status(const std::string &string)
-{
-    ptr->status = lxw_strdup(string.data());
-}
-
-
-void Properties::set_hyperlink_base(const std::string &string)
-{
-    ptr->hyperlink_base = lxw_strdup(string.data());
-}
-
-
-Workbook::Workbook(Workbook &&other):
-    ptr(other.ptr)
-{
-    other.ptr = nullptr;
-}
-
-
 Workbook & Workbook::operator=(Workbook &&other)
 {
     ptr = other.ptr;
@@ -236,7 +137,7 @@ Worksheet Workbook::get_worksheet_by_name(const std::string &name)
 void Workbook::set_properties(const Properties &properties)
 {
     assert(ptr && "Workbook is already closed\n");
-    LXW_CHECK(workbook_set_properties(ptr, properties.ptr));
+    LXW_CHECK(workbook_set_properties(ptr, const_cast<Properties*>(&properties)));
 }
 
 
