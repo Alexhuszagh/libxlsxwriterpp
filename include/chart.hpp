@@ -84,6 +84,38 @@ enum class ChartLabelPosition: uint8_t
     BEST_FIT,
 };
 
+
+enum class TrendlineType: uint8_t
+{
+    LINEAR = 0,
+    LOG,
+    POLY,
+    POWER,
+    EXP,
+    AVERAGE,
+};
+
+
+enum class ErrorBarType: uint8_t
+{
+    STD_ERROR = 0,
+    FIXED,
+    PERCENTAGE,
+    STD_DEV,
+};
+
+
+enum class LegendPosition: uint8_t
+{
+    NONE = 0,
+    RIGHT,
+    LEFT,
+    TOP,
+    BOTTOM,
+    OVERLAY_RIGHT,
+    OVERLAY_LEFT,
+};
+
 // OBJECTS
 // -------
 
@@ -163,16 +195,39 @@ public:
     void set_labels_percentage();
     void set_labels_num_format(const std::string &num_format);
 
-//chart_series_set_labels_num_format
 //chart_series_set_labels_font
-//chart_series_set_trendline
-//chart_series_set_trendline_forecast
-//chart_series_set_trendline_equation
-//chart_series_set_trendline_r_squared
-//chart_series_set_trendline_intercept
-//chart_series_set_trendline_name
+
+    void set_trendline(const TrendlineType type,
+        const uint8_t value);
+    void set_trendline_forecast(const double forward,
+        const double backward);
+    void set_trendline_equation();
+    void set_trendline_r_squared();
+    void set_trendline_intercept(const double intercept);
+    void set_trendline_name(const std::string &name);
+
 //chart_series_set_trendline_line
-//chart_series_set_error_bars
+};
+
+
+class ErrorBars
+{
+protected:
+    lxw_series_error_bars *ptr = nullptr;
+
+    friend class Chart;
+
+    ErrorBars(lxw_series_error_bars *ptr);
+
+public:
+    ErrorBars() = default;
+    ErrorBars(const ErrorBars&) = default;
+    ErrorBars & operator=(const ErrorBars&) = default;
+    ErrorBars(ErrorBars &&other) = default;
+    ErrorBars & operator=(ErrorBars &&other) = default;
+
+    void set_error_bars(const ErrorBarType type,
+        const double value);
 //chart_series_set_error_bars_direction
 //chart_series_set_error_bars_endcap
 //chart_series_set_error_bars_line
@@ -229,12 +284,16 @@ public:
     // DATA
     ChartSeries add_series(const std::string &categories,
         const std::string &values);
+    void set_name(const std::string &name);
+    void set_name_range(const std::string &name,
+        const Row row,
+        const Column col);
 // TODO: add methods
-// chart_title_set_name
-// chart_title_set_name_range
+//
 // chart_title_set_name_font
-// chart_title_off
-// chart_legend_set_position
+    void title_off();
+    void set_legend_position(const LegendPosition position);
+
 // chart_legend_set_font
 // chart_legend_delete_series
 // chart_chartarea_set_line
@@ -243,11 +302,17 @@ public:
 // chart_plotarea_set_line
 // chart_plotarea_set_fill
 // chart_plotarea_set_pattern
-// chart_set_style
-// chart_set_table
-// chart_set_table_grid
+
+    void set_style(const uint8_t style);
+    void set_table();
+    void set_table_grid(const bool horizontal,
+        const bool vertical,
+        const bool outline,
+        const bool legend_keys);
+
 // chart_set_table_font
-// chart_set_up_down_bars
+    void set_up_down_bars();
+//
 // chart_set_up_down_bars_format
 // chart_set_drop_lines
 // chart_set_high_low_lines

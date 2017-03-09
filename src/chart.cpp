@@ -145,6 +145,63 @@ void ChartSeries::set_labels_num_format(const std::string &num_format)
 }
 
 
+void ChartSeries::set_trendline(const TrendlineType type,
+    const uint8_t value)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_series_set_trendline(ptr, FROM_ENUM(type), value);
+}
+
+
+void ChartSeries::set_trendline_forecast(const double forward,
+    const double backward)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_series_set_trendline_forecast(ptr, forward, backward);
+}
+
+
+void ChartSeries::set_trendline_equation()
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_series_set_trendline_equation(ptr);
+}
+
+
+void ChartSeries::set_trendline_r_squared()
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_series_set_trendline_r_squared(ptr);
+}
+
+
+void ChartSeries::set_trendline_intercept(const double intercept)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_series_set_trendline_intercept(ptr, intercept);
+}
+
+
+void ChartSeries::set_trendline_name(const std::string &name)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_series_set_trendline_name(ptr, name.data());
+}
+
+
+ErrorBars::ErrorBars(lxw_series_error_bars *ptr):
+    ptr(ptr)
+{}
+
+
+void ErrorBars::set_error_bars(const ErrorBarType type,
+    const double value)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_series_set_error_bars(ptr, FROM_ENUM(type), value);
+}
+
+
 Chart::Chart(lxw_chart *ptr):
     ptr(ptr)
 {}
@@ -157,6 +214,67 @@ ChartSeries Chart::add_series(const std::string &categories,
     const char *categories_ = categories.empty() ? nullptr : categories.data();
     const char *values_ = values.empty() ? nullptr : values.data();
     return ChartSeries(chart_add_series(ptr, categories_, values_));
+}
+
+
+void Chart::set_name(const std::string &name)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_title_set_name(ptr, name.data());
+}
+
+
+void Chart::set_name_range(const std::string &name,
+    const Row row,
+    const Column col)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_title_set_name_range(ptr, name.data(), row, col);
+}
+
+
+void Chart::title_off()
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_title_off(ptr);
+}
+
+
+void Chart::set_legend_position(const LegendPosition position)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_legend_set_position(ptr, FROM_ENUM(position));
+}
+
+
+void Chart::set_style(const uint8_t style)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_set_style(ptr, FROM_ENUM(position));
+}
+
+
+void Chart::set_table()
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_set_table(ptr);
+}
+
+
+void Chart::set_table_grid(const bool horizontal,
+    const bool vertical,
+    const bool outline,
+    const bool legend_keys)
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_set_table_grid(ptr, horizontal, vertical, outline, legend_keys);
+}
+
+
+void Chart::set_up_down_bars()
+{
+    assert(ptr && "Chart cannot be null.");
+    chart_set_up_down_bars(ptr);
 }
 
 }   /* xlsxwriter */
