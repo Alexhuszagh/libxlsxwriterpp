@@ -8,7 +8,7 @@ build:
     - pacman -S --needed --noconfirm --noprogressbar mingw-w64-${target}-pkg-config cmake
     - git submodule update --init --recursive
     - cd build
-    - cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON ..
+    - cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DIOAPI_NO_64=ON ..
     - make -j 8
     - ctest -C Release -V
 
