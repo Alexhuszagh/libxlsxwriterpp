@@ -24,7 +24,7 @@ git clone https://github.com/Alexhuszagh/libxlsxwriterpp.git
 cd libxlsxwriterpp
 git submodule update --init --recursive
 cd build
-cmake .. -_DBUILD_TESTS=ON
+cmake .. -DBUILD_TESTS=ON
 make -j 5                       # "msbuild libxlsxwriter++.sln" for MSVC
 ```
 
